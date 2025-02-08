@@ -137,7 +137,14 @@ YYSYNTH_DUMMY_CLASS(NSDate_YYAdd)
 - (NSString *)stringWithFormat:(NSString *)format {
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:format];
-    [formatter setLocale:[NSLocale currentLocale]];
+    
+    NSLocale *locale = [NSLocale currentLocale];
+    if (locale != nil && ![locale.localeIdentifier isEqualToString:@"zh_CN"]) {
+        [formatter setLocale:locale];
+    }else{
+        [formatter setLocale:[NSLocale localeWithLocaleIdentifier:@"zh_CN"]];
+    }
+    
     return [formatter stringFromDate:self];
 }
 
@@ -162,6 +169,14 @@ YYSYNTH_DUMMY_CLASS(NSDate_YYAdd)
 
 + (NSDate *)dateWithString:(NSString *)dateString format:(NSString *)format {
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+
+    NSLocale*locale = [NSLocale currentLocale];
+    if (locale != nil && ![locale.localeIdentifier isEqualToString:@"zh_CN"]) {
+        [formatter setLocale:locale];
+    }else{
+        [formatter setLocale:[NSLocale localeWithLocaleIdentifier:@"zh_CN"]];
+    }
+
     [formatter setDateFormat:format];
     return [formatter dateFromString:dateString];
 }
